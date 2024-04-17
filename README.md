@@ -1,6 +1,6 @@
 # Information Modelling & Analysis: Project 2
 
-Student: enter your name here
+Student: Anuj Kumar
 
 Please follow the instructions provided in the project slides 
 and consider the submission instructions available on iCorsi.
