@@ -63,6 +63,7 @@ def get_comments_and_names(node, source_code):
     longest_word_length = 0
     word_count = 0
     max_word_count = 0
+    statement_count = 0
 
     # Extract comments using regular expressions
     comments = re.findall(r'/\*.*?\*/|//.*?\n', source_code, re.DOTALL)
@@ -77,14 +78,20 @@ def get_comments_and_names(node, source_code):
                     longest_word_length = len(word)
             word_count += len(words)
             max_word_count += words.count(longest_word_length)
+        elif comment.startswith("//"):
+            statement_count += 1
 
     # Calculate average method name length
-    method_names = re.findall(r'def\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', source_code)
+    method_names = re.findall(r'\b(?:public|private|protected|static|final|\s)*\s*([a-zA-Z_][a-zA-Z0-9_]*)\s*\(', source_code)
     total_method_name_length = sum(len(name) for name in method_names)
 
     avg_method_name_length = total_method_name_length / len(method_names) if len(method_names) > 0 else 0
 
-    return block_comment_count, avg_method_name_length, max_word_count, word_count
+    # Calculate density of comments to code (dcm)
+    dcm = word_count / statement_count if statement_count > 0 else 0
+
+    return block_comment_count, avg_method_name_length, max_word_count, dcm
+
 
 
 
