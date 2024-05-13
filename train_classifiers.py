@@ -11,11 +11,9 @@ from sklearn.metrics import precision_recall_fscore_support
 feature_vectors_df = pd.read_csv('modified_feature_vector_list.csv')
 
 # Step 2: Prepare Data and Split into Train and Validation Sets
-X = feature_vectors_df.drop(columns=['buggy'])
+X = feature_vectors_df.drop(columns=['buggy', 'Class'])  # Drop 'Class' column here
 y = feature_vectors_df['buggy']
 X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
-
-print(X_train,X_val,y_train,y_val)
 
 # Step 3: Hyperparameter Tuning and Training
 classifiers = {
@@ -28,12 +26,9 @@ classifiers = {
 
 for classifier_name, classifier in classifiers.items():
     print("Training", classifier_name)
-    X_train = X_train.drop(columns=['Class'])
-    X_val = X_val.drop(columns=['Class'])
     classifier.fit(X_train, y_train)
     y_pred = classifier.predict(X_val)
     
-
     precision, recall, _, _ = precision_recall_fscore_support(y_val, y_pred, average='binary')
     print(classifier_name, "- Precision:", precision)
     print(classifier_name, "- Recall:", recall)
