@@ -1,4 +1,4 @@
-# Information Modelling & Analysis: Project 2
+# Bug Prediction
 
 Student: Anuj Kumar
 
